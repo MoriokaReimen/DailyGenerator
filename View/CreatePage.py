@@ -3,6 +3,7 @@
 """
 import tkinter as Tk
 from tkinter import ttk
+from tkinter import messagebox
 import logging
 
 
@@ -14,19 +15,6 @@ class CreatePage(Tk.Frame):
         control (Control): control object
 
     """
-
-    @staticmethod
-    def popupmsg(msg):
-        """Popup message window which notifies task creation
-        """
-        popup = Tk.Tk()
-        popup.wm_title(msg)
-        label = ttk.Label(popup, text=msg)
-        label.pack(side="top", fill="x", pady=10)
-        B1 = ttk.Button(popup, text="Okay", command = popup.destroy)
-        B1.pack()
-        popup.mainloop()
-
     def __init__(self, parent, control):
         self.parent = parent
         self.control = control
@@ -92,18 +80,18 @@ class CreatePage(Tk.Frame):
         detail = self.ed_detail.get(1.0, Tk.END).rstrip()
         memo = self.ed_memo.get(1.0, Tk.END).rstrip()
         if(title):
-            # Crate task on database
-            self.control.create_task(title, importance, urgency, detail, memo)
-            # Clear displayed data back to Start page
-            self.ed_title.delete(0, Tk.END)
-            self.cb_importance.current(1)
-            self.cb_urgency.current(1)
-            self.ed_detail.delete(1.0, Tk.END)
-            self.ed_memo.delete(1.0, Tk.END)
-            self.parent.switch_frame("StartPage", 0)
             # Show popup
-            msg = "Task {} Created".format(title)
-            CreatePage.popupmsg(msg)
+            MsgBox = Tk.messagebox.askquestion ('Update {}?'.format(title),'Are you sure you want to update the task',icon = 'warning')
+            if MsgBox == 'yes':
+                # Crate task on database
+                self.control.create_task(title, importance, urgency, detail, memo)
+                # Clear displayed data back to Start page
+                self.ed_title.delete(0, Tk.END)
+                self.cb_importance.current(1)
+                self.cb_urgency.current(1)
+                self.ed_detail.delete(1.0, Tk.END)
+                self.ed_memo.delete(1.0, Tk.END)
+                self.parent.switch_frame("StartPage", 0)
 
     def update(self, task_id):
         """Update handler which is called when Create page is displayed

@@ -3,6 +3,7 @@
 """
 import tkinter as Tk
 from tkinter import ttk
+from tkinter import messagebox
 import logging
 
 class EditPage(Tk.Frame):
@@ -13,16 +14,6 @@ class EditPage(Tk.Frame):
         control (Control): control object
 
     """
-    @staticmethod
-    def popupmsg(msg):
-        popup = Tk.Tk()
-        popup.wm_title(msg)
-        label = ttk.Label(popup, text=msg)
-        label.pack(side="top", fill="x", pady=10)
-        B1 = ttk.Button(popup, text="Okay", command = popup.destroy)
-        B1.pack()
-        popup.mainloop()
-
     def __init__(self, parent, control):
         # set variables
         self.parent = parent
@@ -92,12 +83,12 @@ class EditPage(Tk.Frame):
         """
         title = self.ed_title.get().rstrip()
         if title:
-            # Update task on database and return to Start page
-            self.parent.switch_frame("StartPage", 0)
-            self.control.delete_task(self.task_id)
             # Show popup
-            msg = "Task {} Deleted".format(title)
-            EditPage.popupmsg(msg)
+            MsgBox = Tk.messagebox.askquestion ('Delete {}?'.format(title),'Are you sure you want to delete the task',icon = 'warning')
+            if MsgBox == 'yes':
+                # Update task on database and return to Start page
+                self.parent.switch_frame("StartPage", 0)
+                self.control.delete_task(self.task_id)
 
     def edit_task(self):
         """Edit task on database
@@ -110,12 +101,12 @@ class EditPage(Tk.Frame):
         detail = self.ed_detail.get(1.0, Tk.END).rstrip()
         memo = self.ed_memo.get(1.0, Tk.END).rstrip()
         if title :
-            # Update task on database and return to Start page
-            self.control.update_task(self.task_id, title, importance, urgency, detail, memo)
-            self.parent.switch_frame("StartPage", 0)
             # Show popup
-            msg = "Task {} Updated".format(title)
-            EditPage.popupmsg(msg)
+            MsgBox = Tk.messagebox.askquestion ('Update {}?'.format(title),'Are you sure you want to update the task',icon = 'warning')
+            if MsgBox == 'yes':
+                # Update task on database and return to Start page
+                self.control.update_task(self.task_id, title, importance, urgency, detail, memo)
+                self.parent.switch_frame("StartPage", 0)
 
     def update(self, task_id):
         """Update handler which is called when Create page is displayed
