@@ -21,6 +21,7 @@ class View():
     def switch_frame(self, page):
         frame = self.frames[page]
         frame.tkraise()
+        frame.update()
 
 class StartPage(Tk.Frame):
     def __init__(self, parent, control):
@@ -52,6 +53,9 @@ class StartPage(Tk.Frame):
             entry = Tk.Entry(frame2, width=10, fg='blue')
             entry["text"] = task.title
             entry.grid(row= i, column=0)
+
+    def update(self):
+        print("update Start Page")
 
 class CreatePage(Tk.Frame):
     @staticmethod
@@ -133,6 +137,10 @@ class CreatePage(Tk.Frame):
         self.ed_memo.delete(1.0, Tk.END)
         CreatePage.popupmsg(msg)
 
+    def update(self):
+        print("update Create Page")
+        pass
+
 class GeneratePage(Tk.Frame):
     def __init__(self, parent, control):
         self.parent = parent
@@ -153,6 +161,12 @@ class GeneratePage(Tk.Frame):
         self.bt_back["text"] = "Back"
         self.bt_back["command"] = lambda : self.parent.switch_frame(StartPage)
         self.bt_back.pack(side = "bottom")
+
+    def update(self):
+        print("update Generate Page")
+        self.daily.delete(1.0, Tk.END)
+        self.daily.insert(Tk.END, self.control.get_daily())
+        pass
 
 if __name__ == '__main__':
     view = View()
