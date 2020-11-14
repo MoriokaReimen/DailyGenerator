@@ -34,8 +34,12 @@ class Database():
         rows = self.cur.execute("SELECT * FROM tasks;").fetchall()
         return [TableItem(row[0], row[1], row[2], row[3], row[4], row[5], row[6]) for row in rows ]
 
-    def insert(self, item):
+    def create(self, item):
         self.cur.execute("INSERT OR REPLACE INTO tasks VALUES (NULL, ?, ?, ?, ?, ?, ?)", (item.active, item.title, item.importance, item.urgency, item.detail, item.memo))
+        self.conn.commit()
+
+    def update(self, item):
+        self.cur.execute("INSERT OR REPLACE INTO tasks VALUES (?, ?, ?, ?, ?, ?, ?)", (item.id, item.active, item.title, item.importance, item.urgency, item.detail, item.memo))
         self.conn.commit()
 
     def remove(self, id):

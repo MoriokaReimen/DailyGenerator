@@ -228,8 +228,10 @@ class EditPage(Tk.Frame):
         # Create Button
         self.bt_back = Tk.Button(self)
         self.bt_back["text"] = "Update"
-        self.bt_back["command"] = lambda : self.create_task()
+        self.bt_back["command"] = lambda : self.edit_task()
         self.bt_back.pack(side = "bottom")
+
+        self.id = -1
 
     def edit_task(self):
         title = self.ed_title.get()
@@ -237,7 +239,7 @@ class EditPage(Tk.Frame):
         urgency = {'LOW':0, 'MIDDLE':1, 'HIGH':2}[self.cb_urgency.get()]
         detail = self.ed_detail.get(1.0, Tk.END)
         memo = self.ed_memo.get(1.0, Tk.END)
-        self.control.create_task(title, importance, urgency, detail, memo)
+        self.control.update_task(self.id, title, importance, urgency, detail, memo)
         msg = "Task {} Updated".format(title)
         EditPage.popupmsg(msg)
 
@@ -252,6 +254,7 @@ class EditPage(Tk.Frame):
         self.ed_detail.delete(1.0, Tk.END)
         self.ed_memo.delete(1.0, Tk.END)
         # Set title
+        self.id = task.id
         self.ed_title.insert(Tk.END, task.title)
         self.cb_importance.current(task.importance)
         self.cb_urgency.current(task.urgency)
