@@ -29,11 +29,10 @@ class StartPage(Tk.Frame):
         # Generate Daily Button
         self.bt_generate = Tk.Button(self)
         self.bt_generate["text"] = "Generate Daily"
-        self.bt_generate["command"] = lambda : self.parent.switch_frame("GeneratePage", 0)
+        self.bt_generate["command"] = lambda : self.parent.switch_frame("GeneratorPage", 0)
         self.bt_generate.pack(side = Tk.RIGHT, anchor = Tk.SE)
 
-    def update(self, event):
-        print(event)
+    def update(self, task_id):
         for widget in self.frame2.winfo_children():
             widget.destroy()
             self.frame2.pack_forget()
@@ -71,7 +70,7 @@ class StartPage(Tk.Frame):
                 # EditButton
                 bt_edit = Tk.Button(self.frame2)
                 bt_edit["text"] = "Edit"
-                bt_edit["command"] = lambda id = task.id : self.parent.switch_frame("EditPage", id)
+                bt_edit["command"] = lambda task_id = task.task_id : self.parent.switch_frame("EditPage", task_id)
                 bt_edit.grid(row=j, column=3)
 
                 # move to next line

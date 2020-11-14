@@ -1,11 +1,24 @@
-
+# -*- coding: utf-8 -*-
+"""Tkinter Frame class for Create page
+"""
 import tkinter as Tk
 from tkinter import ttk
+import logging
 
 
 class CreatePage(Tk.Frame):
+    """Tkinter Frame Class for Create pgae
+
+    Args:
+        parent (Tk.Frame): parent Tkinter frame object
+        control (Control): control object
+
+    """
+
     @staticmethod
     def popupmsg(msg):
+        """Popup message window which notifies task creation
+        """
         popup = Tk.Tk()
         popup.wm_title(msg)
         label = ttk.Label(popup, text=msg)
@@ -69,21 +82,31 @@ class CreatePage(Tk.Frame):
         self.bt_back.pack(side = Tk.LEFT)
 
     def create_task(self):
+        """Create task on database
+
+        """
+        # fetch task data
         title = self.ed_title.get().rstrip()
         importance = {'LOW':0, 'MIDDLE':1, 'HIGH':2}[self.cb_importance.get()]
         urgency = {'LOW':0, 'MIDDLE':1, 'HIGH':2}[self.cb_urgency.get()]
         detail = self.ed_detail.get(1.0, Tk.END).rstrip()
         memo = self.ed_memo.get(1.0, Tk.END).rstrip()
         if(title):
+            # Crate task on database
             self.control.create_task(title, importance, urgency, detail, memo)
-            msg = "Task {} Created".format(title)
+            # Clear displayed data back to Start page
             self.ed_title.delete(0, Tk.END)
             self.cb_importance.current(1)
             self.cb_urgency.current(1)
             self.ed_detail.delete(1.0, Tk.END)
             self.ed_memo.delete(1.0, Tk.END)
+            self.parent.switch_frame("StartPage", 0)
+            # Show popup
+            msg = "Task {} Created".format(title)
             CreatePage.popupmsg(msg)
 
-    def update(self, event):
-        print(event)
-        print("update Create Page")
+    def update(self, task_id):
+        """Update handler which is called when Create page is displayed
+
+        """
+        logging.info("Page transition to Crate Page")

@@ -1,7 +1,18 @@
+# -*- coding: utf-8 -*-
+"""Tkinter Frame class for Edit page
+"""
 import tkinter as Tk
 from tkinter import ttk
+import logging
 
 class EditPage(Tk.Frame):
+    """Tkinter Frame Class for Edit pgae
+
+    Args:
+        parent (Tk.Frame): parent Tkinter frame object
+        control (Control): control object
+
+    """
     @staticmethod
     def popupmsg(msg):
         popup = Tk.Tk()
@@ -13,9 +24,10 @@ class EditPage(Tk.Frame):
         popup.mainloop()
 
     def __init__(self, parent, control):
+        # set variables
         self.parent = parent
         self.control = control
-        self.id = -1
+        self.task_id = -1
         # Show Title
         Tk.Frame.__init__(self, self.parent.root)
         self.label = Tk.Label(self, text = "Edit Page")
@@ -75,36 +87,51 @@ class EditPage(Tk.Frame):
 
 
     def delete_task(self):
+        """Delete task on database
+
+        """
         title = self.ed_title.get().rstrip()
         if title:
+            # Update task on database and return to Start page
             self.parent.switch_frame("StartPage", 0)
-            self.control.delete_task(self.id)
+            self.control.delete_task(self.task_id)
+            # Show popup
             msg = "Task {} Deleted".format(title)
             EditPage.popupmsg(msg)
 
     def edit_task(self):
+        """Edit task on database
+
+        """
+        # fetch task data
         title = self.ed_title.get().rstrip()
         importance = {'LOW':0, 'MIDDLE':1, 'HIGH':2}[self.cb_importance.get()]
         urgency = {'LOW':0, 'MIDDLE':1, 'HIGH':2}[self.cb_urgency.get()]
         detail = self.ed_detail.get(1.0, Tk.END).rstrip()
         memo = self.ed_memo.get(1.0, Tk.END).rstrip()
         if title :
-            self.control.update_task(self.id, title, importance, urgency, detail, memo)
+            # Update task on database and return to Start page
+            self.control.update_task(self.task_id, title, importance, urgency, detail, memo)
+            self.parent.switch_frame("StartPage", 0)
+            # Show popup
             msg = "Task {} Updated".format(title)
             EditPage.popupmsg(msg)
 
-    def update(self, event):
-        task = self.control.get_task(event)[0]
-        print("update Create Page")
-        print(event)
-        # delete all
+    def update(self, task_id):
+        """Update handler which is called when Create page is displayed
+
+        """
+        logging.info("Page transition to Edit Page")
+        # fetch task data from database
+        task = self.control.get_task(task_id)[0]
+        # clear task data
         self.ed_title.delete(0, Tk.END)
         self.cb_importance.current(1)
         self.cb_urgency.current(1)
         self.ed_detail.delete(1.0, Tk.END)
         self.ed_memo.delete(1.0, Tk.END)
-        # Set title
-        self.id = task.id
+        # Set task data
+        self.task_id = task.task_id
         self.ed_title.insert(Tk.END, task.title.rstrip())
         self.cb_importance.current(task.importance)
         self.cb_urgency.current(task.urgency)
