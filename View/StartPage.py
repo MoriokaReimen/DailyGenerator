@@ -13,24 +13,24 @@ class StartPage(Tk.Frame):
 
         # Show Title
         Tk.Frame.__init__(self, self.parent.root)
-        self.label = Tk.Label(self, text = "Table Task")
-        self.label.pack(side = Tk.TOP, fill = Tk.X)
+        self.label = Tk.Label(self, text = "Task Table")
+        self.label.pack(side = Tk.TOP, anchor = Tk.NW)
 
         # Show Entry
         self.frame2 = Tk.Frame(self)
-        self.frame2.pack(side=Tk.TOP, fill=Tk.X)
+        self.frame2.pack(side = Tk.TOP, anchor = Tk.NW)
 
         # Edit Button
         self.bt_new_item = Tk.Button(self)
         self.bt_new_item["text"] = "Create New Item"
         self.bt_new_item["command"] = lambda : self.parent.switch_frame("CreatePage", 0)
-        self.bt_new_item.pack(side = "bottom")
+        self.bt_new_item.pack(side = Tk.RIGHT, anchor = Tk.SE)
 
         # Generate Daily Button
         self.bt_generate = Tk.Button(self)
         self.bt_generate["text"] = "Generate Daily"
         self.bt_generate["command"] = lambda : self.parent.switch_frame("GeneratePage", 0)
-        self.bt_generate.pack(side = "bottom")
+        self.bt_generate.pack(side = Tk.RIGHT, anchor = Tk.SE)
 
     def update(self, event):
         print(event)
@@ -39,7 +39,19 @@ class StartPage(Tk.Frame):
 
         self.frame2.pack_forget()
         tasks = self.control.get_tasks()
-        j = 0
+        # Title
+        entry = Tk.Label(self.frame2, text = "title", width = 25, justify=Tk.LEFT, anchor=Tk.W, relief = Tk.RIDGE, fg="white", bg="black")
+        entry.grid(row= 0, column=0)
+
+        # Importance
+        entry = Tk.Label(self.frame2, text = "importance", width = 8, justify=Tk.LEFT, anchor=Tk.W, relief = Tk.RIDGE, fg="white", bg="black")
+        entry.grid(row= 0, column=1)
+
+        # Importance
+        entry = Tk.Label(self.frame2, text = "urgency", width = 8, justify=Tk.LEFT, anchor=Tk.W, relief = Tk.RIDGE, fg="white", bg="black")
+        entry.grid(row= 0, column=2)
+
+        j = 1
         for task in tasks:
             # Title
             entry = Tk.Label(self.frame2, text = task.title, width = 25, justify=Tk.LEFT, anchor=Tk.W, relief = Tk.RIDGE)
@@ -64,4 +76,4 @@ class StartPage(Tk.Frame):
             # move to next line
             j += 1
 
-        self.frame2.pack(side=Tk.TOP, fill=Tk.X)
+        self.frame2.pack(side=Tk.TOP, anchor=Tk.NW)
