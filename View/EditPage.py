@@ -15,6 +15,7 @@ class EditPage(Tk.Frame):
     def __init__(self, parent, control):
         self.parent = parent
         self.control = control
+        self.id = -1
         # Show Title
         Tk.Frame.__init__(self, self.parent.root)
         self.label = Tk.Label(self, text = "Edit Page")
@@ -54,11 +55,17 @@ class EditPage(Tk.Frame):
         self.ed_memo = Tk.Text(self, height=10)
         self.ed_memo.pack(side = Tk.TOP, anchor=Tk.NW)
 
+        # Delete Button
+        self.bt_delete = Tk.Button(self)
+        self.bt_delete["text"] = "Delete"
+        self.bt_delete["command"] = lambda : self.delete_task()
+        self.bt_delete.pack(side = Tk.RIGHT)
+
         # Back Button
         self.bt_back = Tk.Button(self)
         self.bt_back["text"] = "Back"
         self.bt_back["command"] = lambda : self.parent.switch_frame("StartPage", 0)
-        self.bt_back.pack(side = Tk.LEFT)
+        self.bt_back.pack(side = Tk.LEFT, anchor=Tk.E)
 
         # Create Button
         self.bt_back = Tk.Button(self)
@@ -66,7 +73,14 @@ class EditPage(Tk.Frame):
         self.bt_back["command"] = lambda : self.edit_task()
         self.bt_back.pack(side = Tk.LEFT)
 
-        self.id = -1
+
+    def delete_task(self):
+        title = self.ed_title.get().rstrip()
+        if title:
+            self.parent.switch_frame("StartPage", 0)
+            self.control.delete_task(self.id)
+            msg = "Task {} Deleted".format(title)
+            EditPage.popupmsg(msg)
 
     def edit_task(self):
         title = self.ed_title.get().rstrip()

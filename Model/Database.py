@@ -25,6 +25,10 @@ class Database():
         self.cur.execute("UPDATE tasks SET active = ?, title = ?, importance = ?, urgency = ?, detail = ?, memo = ? WHERE id = ?", (item.active, item.title.rstrip(), item.importance, item.urgency, item.detail.rstrip(), item.memo.rstrip(), item.id))
         self.conn.commit()
 
+    def delete_task(self, id):
+        self.cur.execute("UPDATE tasks SET active = 0 WHERE id = ?", (id,))
+        self.conn.commit()
+
     def remove(self, id):
         self.cur.execute("DELETE FROM tasks WHERE id=?", (id,))
         self.conn.commit()

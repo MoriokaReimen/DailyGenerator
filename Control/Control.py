@@ -15,6 +15,9 @@ class Control():
     def get_task(self, id):
         return self.model.db.fetch(id)
 
+    def delete_task(self, id):
+        self.model.db.delete_task(id)
+
     def create_task(self, title, importance, urgency, detail, memo):
         task = Model.TableItem(0, True, title, importance, urgency, detail, memo)
         self.model.db.create(task)
