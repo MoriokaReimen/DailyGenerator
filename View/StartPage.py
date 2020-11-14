@@ -36,9 +36,8 @@ class StartPage(Tk.Frame):
         print(event)
         for widget in self.frame2.winfo_children():
             widget.destroy()
+            self.frame2.pack_forget()
 
-        self.frame2.pack_forget()
-        tasks = self.control.get_tasks()
         # Title
         entry = Tk.Label(self.frame2, text = "title", width = 25, justify=Tk.LEFT, anchor=Tk.W, relief = Tk.RIDGE, fg="white", bg="black")
         entry.grid(row= 0, column=0)
@@ -51,6 +50,7 @@ class StartPage(Tk.Frame):
         entry = Tk.Label(self.frame2, text = "urgency", width = 8, justify=Tk.LEFT, anchor=Tk.W, relief = Tk.RIDGE, fg="white", bg="black")
         entry.grid(row= 0, column=2)
 
+        tasks = self.control.get_tasks()
         j = 1
         for task in tasks:
             if task.active :
