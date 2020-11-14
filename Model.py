@@ -13,6 +13,13 @@ class TableItem:
     detail: str
     memo: str
 
+class Model():
+
+    def __init__(self, control):
+        self.db = Database("tasks.db")
+        self.daily_gen = DailyGenerator()
+        self.control = control
+
 class Database():
     def __init__(self, db):
         self.conn = sqlite3.connect(db)
@@ -44,7 +51,7 @@ class DailyGenerator():
         pass
 
     def generate(self, rows):
-        text = str()
+        text = "Dear Someone\n"
         for row in rows:
             if row.active:
                 text += \
@@ -52,10 +59,11 @@ class DailyGenerator():
                     "====================================================================================================\n" \
                     "Importance:\t{importance}\n" \
                     "Urgency:\t{urgency}\n" \
-                    "Detail:\n{detail}\n" \
+                    "Detail:\n{detail}\n\n\n" \
                     .format(**asdict(row))
 
-        print(text)
+        text += "Regards"
+        return text
 
 
     def __del__(self):
