@@ -54,6 +54,16 @@ class StartPage(Tk.Frame):
             entry.grid(row= i, column=0)
 
 class CreatePage(Tk.Frame):
+    @staticmethod
+    def popupmsg(msg):
+        popup = Tk.Tk()
+        popup.wm_title(msg)
+        label = ttk.Label(popup, text=msg)
+        label.pack(side="top", fill="x", pady=10)
+        B1 = ttk.Button(popup, text="Okay", command = popup.destroy)
+        B1.pack()
+        popup.mainloop()
+
     def __init__(self, parent, control):
         self.parent = parent
         self.control = control
@@ -112,9 +122,16 @@ class CreatePage(Tk.Frame):
         title = self.ed_title.get()
         importance = {'LOW':0, 'MIDDLE':1, 'HIGH':2}[self.cb_importance.get()]
         urgency = {'LOW':0, 'MIDDLE':1, 'HIGH':2}[self.cb_urgency.get()]
-        detail = self.ed_detail.get()
-        memo = self.ed_memo.get()
+        detail = self.ed_detail.get(1.0, Tk.END)
+        memo = self.ed_memo.get(1.0, Tk.END)
         self.control.create_task(title, importance, urgency, detail, memo)
+        msg = "Task {} Created".format(title)
+        self.ed_title.delete(0, Tk.END)
+        self.cb_importance.current(1)
+        self.cb_urgency.current(1)
+        self.ed_detail.delete(1.0, Tk.END)
+        self.ed_memo.delete(1.0, Tk.END)
+        CreatePage.popupmsg(msg)
 
 class GeneratePage(Tk.Frame):
     def __init__(self, parent, control):
