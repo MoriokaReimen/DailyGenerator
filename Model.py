@@ -26,8 +26,8 @@ class Database():
         self.cur = self.conn.cursor()
         self.cur.execute("CREATE TABLE IF NOT EXISTS tasks ( id INTEGER PRIMARY KEY, active BOOLEAN NOT NULL, title TEXT NOT NULL UNIQUE, importance INTEGER DEFAULT 2, urgency INTEGER DEFAULT 2, detail TEXT, memo TEXT);")
 
-    def fetch(self, query):
-        rows = self.cur.execute(query).fetchall()
+    def fetch(self, id):
+        rows = self.cur.execute("SELECT * FROM tasks WHERE id=?", (id,)).fetchall()
         return [TableItem(row[0], row[1], row[2], row[3], row[4], row[5], row[6]) for row in rows ]
 
     def fetch_all(self):

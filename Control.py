@@ -12,6 +12,9 @@ class Control():
     def get_tasks(self):
         return self.model.db.fetch_all()
 
+    def get_task(self, id):
+        return self.model.db.fetch(id)
+
     def create_task(self, title, importance, urgency, detail, memo):
         task = Model.TableItem(0, True, title, importance, urgency, detail, memo)
         self.model.db.insert(task)
