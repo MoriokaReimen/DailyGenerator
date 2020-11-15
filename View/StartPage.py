@@ -57,6 +57,10 @@ class StartPage(Tk.Frame):
         entry = Tk.Label(self.frame2, text = "create", width = 15, justify=Tk.LEFT, anchor=Tk.W, relief = Tk.RIDGE, fg="white", bg="black")
         entry.grid(row= 0, column=3)
 
+        # Man-hour
+        entry = Tk.Label(self.frame2, text = "Man-hour", width = 10, justify=Tk.LEFT, anchor=Tk.W, relief = Tk.RIDGE, fg="white", bg="black")
+        entry.grid(row= 0, column=4)
+
         tasks = self.control.get_tasks()
         j = 1
         for task in tasks:
@@ -80,11 +84,16 @@ class StartPage(Tk.Frame):
                 entry = Tk.Label(self.frame2, text = create_time, width = 15, justify=Tk.LEFT, anchor=Tk.W, relief = Tk.RIDGE)
                 entry.grid(row= j, column=3)
 
+                # Man-hour
+                man_hour = task.man_hour
+                entry = Tk.Label(self.frame2, text = man_hour, width = 10, justify=Tk.LEFT, anchor=Tk.W, relief = Tk.RIDGE)
+                entry.grid(row= j, column=4)
+
                 # EditButton
                 bt_edit = Tk.Button(self.frame2)
                 bt_edit["text"] = "Edit"
                 bt_edit["command"] = lambda task_id = task.task_id : self.parent.switch_frame("EditPage", task_id)
-                bt_edit.grid(row=j, column=4)
+                bt_edit.grid(row=j, column=5)
 
                 # move to next line
                 j += 1

@@ -35,7 +35,7 @@ class Control():
     def delete_task(self, task_id):
         """delete task data in database
         Args:
-            task_id (Int): task id to be updated
+            task_id (Int): task id to be deleted
 
         """
         self.model.db.delete_task(task_id)
@@ -48,13 +48,14 @@ class Control():
             urgency (Int): Urgency of task
             detail (str): detail of task
             memo (str): memo of task
+            man_hour (Float): man hour for the task
             create_time (datetime): date of creation
 
         """
-        task = Model.TableItem(0, True, title, importance, urgency, detail, memo, create_time)
+        task = Model.TableItem(0, True, title, importance, urgency, detail, memo, 0.0, create_time)
         self.model.db.create(task)
 
-    def update_task(self, task_id, title, importance, urgency, detail, memo):
+    def update_task(self, task_id, title, importance, urgency, detail, memo, man_hour):
         """updata task data in database
         Args:
             task_id (Int): task id to be updated
@@ -63,10 +64,10 @@ class Control():
             urgency (Int): Urgency of task
             detail (str): detail of task
             memo (str): memo of task
-            create_time (datetime): date of creation
+            man_hour (Float): man hour for the task
 
         """
-        task = Model.TableItem(task_id, True, title, importance, urgency, detail, memo, 0)
+        task = Model.TableItem(task_id, True, title, importance, urgency, detail, memo, man_hour, 0)
         self.model.db.update(task)
 
     def get_daily(self):

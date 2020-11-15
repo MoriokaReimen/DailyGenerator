@@ -17,6 +17,8 @@ class TableItem:
         urgency (int): task urgency LOW/MIDDLE/HIGH
         detail (str): detail of task
         memo (str): memo of task
+        man_hour (float): man hour of task
+        create_time (datetime): task creation datetime
 
     """
     task_id: int
@@ -26,4 +28,5 @@ class TableItem:
     urgency: int
     detail: str
     memo: str
+    man_hour: float
     create_time: datetime.datetime

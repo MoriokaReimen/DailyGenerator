@@ -17,7 +17,7 @@ class Database():
     def __init__(self, db_name):
         self.conn = sqlite3.connect(db_name)
         self.cur = self.conn.cursor()
-        self.cur.execute("CREATE TABLE IF NOT EXISTS tasks ( task_id INTEGER PRIMARY KEY, active BOOLEAN NOT NULL, title TEXT NOT NULL UNIQUE, importance INTEGER DEFAULT 2, urgency INTEGER DEFAULT 2, detail TEXT, memo TEXT, create_date TIMESTAMP);")
+        self.cur.execute("CREATE TABLE IF NOT EXISTS tasks ( task_id INTEGER PRIMARY KEY, active BOOLEAN NOT NULL, title TEXT NOT NULL UNIQUE, importance INTEGER DEFAULT 2, urgency INTEGER DEFAULT 2, detail TEXT, memo TEXT, man_hour FLOAT, create_date TIMESTAMP);")
 
     def fetch(self, task_id):
         """Get task from database
@@ -27,14 +27,14 @@ class Database():
 
         """
         rows = self.cur.execute("SELECT * FROM tasks WHERE task_id=?", (task_id,)).fetchall()
-        return [TableItem(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7]) for row in rows ]
+        return [TableItem(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8]) for row in rows ]
 
     def fetch_all(self):
         """Get all task from database
 
         """
         rows = self.cur.execute("SELECT * FROM tasks;").fetchall()
-        return [TableItem(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7]) for row in rows ]
+        return [TableItem(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8]) for row in rows ]
 
     def create(self, item):
         """Create task on database
@@ -43,7 +43,7 @@ class Database():
             item (TableItem): task data to be created
 
         """
-        self.cur.execute("INSERT INTO tasks VALUES (NULL, ?, ?, ?, ?, ?, ?, ?)", (item.active, item.title.rstrip(), item.importance, item.urgency, item.detail.rstrip(), item.memo.rstrip(), item.create_time))
+        self.cur.execute("INSERT INTO tasks VALUES (NULL, ?, ?, ?, ?, ?, ?, 0.0, ?)", (item.active, item.title.rstrip(), item.importance, item.urgency, item.detail.rstrip(), item.memo.rstrip(), item.create_time))
         self.conn.commit()
 
     def update(self, item):
@@ -53,7 +53,7 @@ class Database():
             item (TableItem): task data to be updated
 
         """
-        self.cur.execute("UPDATE tasks SET active = ?, title = ?, importance = ?, urgency = ?, detail = ?, memo = ? WHERE task_id = ?", (item.active, item.title.rstrip(), item.importance, item.urgency, item.detail.rstrip(), item.memo.rstrip(), item.task_id))
+        self.cur.execute("UPDATE tasks SET active = ?, title = ?, importance = ?, urgency = ?, detail = ?, memo = ?, man_hour = ? WHERE task_id = ?", (item.active, item.title.rstrip(), item.importance, item.urgency, item.detail.rstrip(), item.memo.rstrip(), item.man_hour, item.task_id))
         self.conn.commit()
 
     def delete_task(self, task_id):

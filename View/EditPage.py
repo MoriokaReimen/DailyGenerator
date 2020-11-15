@@ -19,6 +19,7 @@ class EditPage(Tk.Frame):
         self.parent = parent
         self.control = control
         self.task_id = -1
+        self.man_hour = 0.0
         # Show Title
         Tk.Frame.__init__(self, self.parent.root)
         self.label = Tk.Label(self, text = "Edit Page")
@@ -29,6 +30,24 @@ class EditPage(Tk.Frame):
         self.lb_title.pack(side = Tk.TOP, anchor=Tk.NW)
         self.ed_title = Tk.Entry(self, width=50)
         self.ed_title.pack(side = Tk.TOP, anchor=Tk.NW)
+
+        # Man-hour entry
+        self.lb_man_hour = Tk.Label(self, text ="Man-hour")
+        self.lb_man_hour.pack(side = Tk.TOP, anchor=Tk.NW)
+        self.ed_man_hour = Tk.Label(self, text=self.man_hour)
+        self.ed_man_hour.pack(side = Tk.TOP, anchor=Tk.NW)
+
+        # increment Button
+        self.bt_increment = Tk.Button(self, height=1, width=1)
+        self.bt_increment["text"] = "+"
+        self.bt_increment["command"] = lambda : self.increment_man_hour()
+        self.bt_increment.pack(side = Tk.TOP, anchor=Tk.W)
+
+        # decrement Button
+        self.bt_decrement = Tk.Button(self, height=1, width=1)
+        self.bt_decrement["text"] = "-"
+        self.bt_decrement["command"] = lambda : self.decrement_man_hour()
+        self.bt_decrement.pack(side = Tk.TOP, anchor=Tk.W)
 
         # Importance combobox
         self.lb_importance = Tk.Label(self, text = "Importance")
@@ -76,6 +95,19 @@ class EditPage(Tk.Frame):
         self.bt_back["command"] = lambda : self.edit_task()
         self.bt_back.pack(side = Tk.LEFT)
 
+    def increment_man_hour(self):
+        """increment man hour
+        """
+        self.man_hour += 0.5
+        self.ed_man_hour.config(text = self.man_hour)
+
+    def decrement_man_hour(self):
+        """decrement man hour
+
+        """
+        if self.man_hour >= 0.5:
+            self.man_hour -= 0.5
+            self.ed_man_hour.config(text = self.man_hour)
 
     def delete_task(self):
         """Delete task on database
@@ -100,12 +132,13 @@ class EditPage(Tk.Frame):
         urgency = {'LOW':0, 'MIDDLE':1, 'HIGH':2}[self.cb_urgency.get()]
         detail = self.ed_detail.get(1.0, Tk.END).rstrip()
         memo = self.ed_memo.get(1.0, Tk.END).rstrip()
+        man_hour = self.man_hour
         if title :
             # Show popup
             MsgBox = Tk.messagebox.askquestion ('Update {}?'.format(title),'Are you sure you want to update the task',icon = 'warning')
             if MsgBox == 'yes':
                 # Update task on database and return to Start page
-                self.control.update_task(self.task_id, title, importance, urgency, detail, memo)
+                self.control.update_task(self.task_id, title, importance, urgency, detail, memo, man_hour)
                 self.parent.switch_frame("StartPage", 0)
 
     def update(self, task_id):
@@ -128,3 +161,5 @@ class EditPage(Tk.Frame):
         self.cb_urgency.current(task.urgency)
         self.ed_detail.insert(Tk.END, task.detail.rstrip())
         self.ed_memo.insert(Tk.END, task.memo.rstrip())
+        self.man_hour = task.man_hour
+        self.ed_man_hour.config(text = self.man_hour)
