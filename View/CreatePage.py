@@ -5,6 +5,7 @@ import tkinter as Tk
 from tkinter import ttk
 from tkinter import messagebox
 import logging
+import datetime
 
 
 class CreatePage(Tk.Frame):
@@ -83,8 +84,8 @@ class CreatePage(Tk.Frame):
             # Show popup
             MsgBox = Tk.messagebox.askquestion ('Update {}?'.format(title),'Are you sure you want to update the task',icon = 'warning')
             if MsgBox == 'yes':
-                # Crate task on database
-                self.control.create_task(title, importance, urgency, detail, memo)
+                # Create task on database
+                self.control.create_task(title, importance, urgency, detail, memo, datetime.datetime.now())
                 # Clear displayed data back to Start page
                 self.ed_title.delete(0, Tk.END)
                 self.cb_importance.current(1)
@@ -97,4 +98,4 @@ class CreatePage(Tk.Frame):
         """Update handler which is called when Create page is displayed
 
         """
-        logging.info("Page transition to Crate Page")
+        logging.info("Page transition to Create Page")

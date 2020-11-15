@@ -3,6 +3,7 @@
 """
 from dataclasses import dataclass
 from dataclasses import asdict
+import datetime
 
 @dataclass
 class TableItem:
@@ -25,3 +26,4 @@ class TableItem:
     urgency: int
     detail: str
     memo: str
+    create_time: datetime.datetime

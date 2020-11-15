@@ -40,7 +40,7 @@ class Control():
         """
         self.model.db.delete_task(task_id)
 
-    def create_task(self, title, importance, urgency, detail, memo):
+    def create_task(self, title, importance, urgency, detail, memo, create_time):
         """create task data in database
         Args:
             title (str): title of task
@@ -48,9 +48,10 @@ class Control():
             urgency (Int): Urgency of task
             detail (str): detail of task
             memo (str): memo of task
+            create_time (datetime): date of creation
 
         """
-        task = Model.TableItem(0, True, title, importance, urgency, detail, memo)
+        task = Model.TableItem(0, True, title, importance, urgency, detail, memo, create_time)
         self.model.db.create(task)
 
     def update_task(self, task_id, title, importance, urgency, detail, memo):
@@ -62,9 +63,10 @@ class Control():
             urgency (Int): Urgency of task
             detail (str): detail of task
             memo (str): memo of task
+            create_time (datetime): date of creation
 
         """
-        task = Model.TableItem(task_id, True, title, importance, urgency, detail, memo)
+        task = Model.TableItem(task_id, True, title, importance, urgency, detail, memo, 0)
         self.model.db.update(task)
 
     def get_daily(self):

@@ -1,5 +1,6 @@
 import tkinter as Tk
 from tkinter import ttk
+import datetime
 
 from .CreatePage import *
 from .GeneratorPage import *
@@ -33,9 +34,12 @@ class StartPage(Tk.Frame):
         self.bt_generate.pack(side = Tk.RIGHT, anchor = Tk.SE)
 
     def update(self, task_id):
+        # Clear table widgets
         for widget in self.frame2.winfo_children():
             widget.destroy()
-            self.frame2.pack_forget()
+
+        # reset pack
+        self.frame2.pack_forget()
 
         # Title
         entry = Tk.Label(self.frame2, text = "title", width = 25, justify=Tk.LEFT, anchor=Tk.W, relief = Tk.RIDGE, fg="white", bg="black")
@@ -45,9 +49,13 @@ class StartPage(Tk.Frame):
         entry = Tk.Label(self.frame2, text = "importance", width = 8, justify=Tk.LEFT, anchor=Tk.W, relief = Tk.RIDGE, fg="white", bg="black")
         entry.grid(row= 0, column=1)
 
-        # Importance
+        # Urgency
         entry = Tk.Label(self.frame2, text = "urgency", width = 8, justify=Tk.LEFT, anchor=Tk.W, relief = Tk.RIDGE, fg="white", bg="black")
         entry.grid(row= 0, column=2)
+
+        # Create
+        entry = Tk.Label(self.frame2, text = "create", width = 15, justify=Tk.LEFT, anchor=Tk.W, relief = Tk.RIDGE, fg="white", bg="black")
+        entry.grid(row= 0, column=3)
 
         tasks = self.control.get_tasks()
         j = 1
@@ -67,11 +75,16 @@ class StartPage(Tk.Frame):
                 entry = Tk.Label(self.frame2, text = urgency, width = 8, justify=Tk.LEFT, anchor=Tk.W, relief = Tk.RIDGE)
                 entry.grid(row= j, column=2)
 
+                # Create
+                create_time = task.create_time[:16]
+                entry = Tk.Label(self.frame2, text = create_time, width = 15, justify=Tk.LEFT, anchor=Tk.W, relief = Tk.RIDGE)
+                entry.grid(row= j, column=3)
+
                 # EditButton
                 bt_edit = Tk.Button(self.frame2)
                 bt_edit["text"] = "Edit"
                 bt_edit["command"] = lambda task_id = task.task_id : self.parent.switch_frame("EditPage", task_id)
-                bt_edit.grid(row=j, column=3)
+                bt_edit.grid(row=j, column=4)
 
                 # move to next line
                 j += 1
