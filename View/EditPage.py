@@ -119,8 +119,8 @@ class EditPage(Tk.Frame):
             MsgBox = Tk.messagebox.askquestion ('Delete {}?'.format(title),'Are you sure you want to delete the task',icon = 'warning')
             if MsgBox == 'yes':
                 # Update task on database and return to Start page
-                self.parent.switch_frame("StartPage", 0)
                 self.control.delete_task(self.task_id)
+                self.parent.switch_frame("StartPage", 0)
 
     def edit_task(self):
         """Edit task on database
