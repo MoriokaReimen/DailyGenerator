@@ -20,7 +20,7 @@ class DailyGenerator():
         for row in rows:
             if row.active:
                 text += \
-                    "Title:{title}\n" \
+                    "Title:{title} - {man_hour}H\n" \
                     "====================\n" \
                     "Importance:\t{importance}\n" \
                     "Urgency:\t{urgency}\n" \
