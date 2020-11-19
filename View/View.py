@@ -2,7 +2,7 @@
 """View class which organize GUI part of app
 """
 
-import tkinter as Tk
+import tkinter as tk
 from tkinter import ttk
 
 from Control import *
@@ -22,7 +22,7 @@ class View():
 
     def __init__(self, control):
         # Set up window
-        self.root = Tk.Tk()
+        self.root = tk.Tk()
         self.root.title("Daily Generator Ver0.0")
 
         # pack all pages into list
