@@ -11,6 +11,7 @@ from .CreatePage import *
 from .EditPage import *
 from .GeneratorPage import *
 
+
 class View():
     """Tkinter Frame Generator for Edit pgae
 
@@ -18,6 +19,7 @@ class View():
         control (Control): Control class object
 
     """
+
     def __init__(self, control):
         # Set up window
         self.root = Tk.Tk()
@@ -25,10 +27,11 @@ class View():
 
         # pack all pages into list
         self.frames = {}
-        for S,F in (("StartPage",StartPage), ("CreatePage",CreatePage), ("GeneratorPage",GeneratorPage), ("EditPage",EditPage)):
+        for S, F in (("StartPage", StartPage), ("CreatePage", CreatePage),
+                     ("GeneratorPage", GeneratorPage), ("EditPage", EditPage)):
             frame = F(self, control)
             self.frames[S] = frame
-            frame.grid(row = 0, column = 0, sticky="nsew")
+            frame.grid(row=0, column=0, sticky="nsew")
 
         # set Start page as initial page
         self.switch_frame("StartPage", 0)

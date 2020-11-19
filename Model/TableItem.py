@@ -5,6 +5,7 @@ from dataclasses import dataclass
 from dataclasses import asdict
 import datetime
 
+
 @dataclass
 class TableItem:
     """Task data class

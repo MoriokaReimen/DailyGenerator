@@ -5,6 +5,7 @@
 import logging
 from .TableItem import *
 
+
 class DailyGenerator():
     """Daily generator clss
     """
@@ -30,7 +31,6 @@ class DailyGenerator():
         # set footer of daily
         text += "Regards"
         return text
-
 
     def __del__(self):
         logging.info("Daily file closed successfully.")

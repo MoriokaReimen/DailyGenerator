@@ -4,10 +4,12 @@
 import Model
 import View
 
+
 class Control():
     """Control class
 
     """
+
     def __init__(self):
         self.model = Model.Model(self)
         self.view = View.View(self)
@@ -40,7 +42,14 @@ class Control():
         """
         self.model.db.delete_task(task_id)
 
-    def create_task(self, title, importance, urgency, detail, memo, create_time):
+    def create_task(
+            self,
+            title,
+            importance,
+            urgency,
+            detail,
+            memo,
+            create_time):
         """create task data in database
         Args:
             title (str): title of task
@@ -52,10 +61,27 @@ class Control():
             create_time (datetime): date of creation
 
         """
-        task = Model.TableItem(0, True, title, importance, urgency, detail, memo, 0.0, create_time)
+        task = Model.TableItem(
+            0,
+            True,
+            title,
+            importance,
+            urgency,
+            detail,
+            memo,
+            0.0,
+            create_time)
         self.model.db.create(task)
 
-    def update_task(self, task_id, title, importance, urgency, detail, memo, man_hour):
+    def update_task(
+            self,
+            task_id,
+            title,
+            importance,
+            urgency,
+            detail,
+            memo,
+            man_hour):
         """updata task data in database
         Args:
             task_id (Int): task id to be updated
@@ -67,7 +93,16 @@ class Control():
             man_hour (Float): man hour for the task
 
         """
-        task = Model.TableItem(task_id, True, title, importance, urgency, detail, memo, man_hour, 0)
+        task = Model.TableItem(
+            task_id,
+            True,
+            title,
+            importance,
+            urgency,
+            detail,
+            memo,
+            man_hour,
+            0)
         self.model.db.update(task)
 
     def get_daily(self):

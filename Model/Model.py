@@ -5,6 +5,7 @@ from .Database import *
 from .DailyGenerator import *
 import logging
 
+
 class Model():
     """Model class
 
@@ -15,4 +16,3 @@ class Model():
         self.db = Database("tasks.db")
         self.daily_gen = DailyGenerator()
         self.control = control
-
