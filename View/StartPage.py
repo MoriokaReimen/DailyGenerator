@@ -22,19 +22,22 @@ class StartPage(tk.Frame):
         self.frame2 = tk.Frame(self)
         self.frame2.pack(side=tk.TOP, anchor=tk.NW)
 
+        self.button_frame = tk.Frame(self)
+        self.button_frame.pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
+
         # Edit Button
-        self.bt_new_item = tk.Button(self)
+        self.bt_new_item = tk.Button(self.button_frame)
         self.bt_new_item["text"] = "Create New Item"
         self.bt_new_item["command"] = lambda: self.parent.switch_frame(
             "CreatePage", 0)
-        self.bt_new_item.pack(side=tk.RIGHT, anchor=tk.SE)
+        self.bt_new_item.pack(side=tk.LEFT)
 
         # Generate Daily Button
-        self.bt_generate = tk.Button(self)
+        self.bt_generate = tk.Button(self.button_frame)
         self.bt_generate["text"] = "Generate Daily"
         self.bt_generate["command"] = lambda: self.parent.switch_frame(
             "GeneratorPage", 0)
-        self.bt_generate.pack(side=tk.RIGHT, anchor=tk.SE)
+        self.bt_generate.pack(side=tk.RIGHT)
 
     def update(self, task_id):
         # Clear table widgets
