@@ -3,6 +3,7 @@
 """
 import tkinter as tk
 from tkinter import ttk
+from tkinter import scrolledtext
 
 import logging
 
@@ -27,9 +28,9 @@ class GeneratorPage(tk.Frame):
         self.label.pack(side=tk.TOP, anchor=tk.NW)
 
         # Show Daily
-        self.daily = tk.Text(self)
+        self.daily = tk.scrolledtext.ScrolledText(self)
         self.daily.insert(tk.END, control.get_daily())
-        self.daily.pack(side=tk.TOP, anchor=tk.NW)
+        self.daily.pack(side=tk.TOP, anchor=tk.NW, expand=True)
 
         # Back Button
         self.bt_back = tk.Button(self)
