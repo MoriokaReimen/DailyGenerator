@@ -4,6 +4,7 @@
 import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
+from tkinter import scrolledtext
 import logging
 
 
@@ -70,14 +71,14 @@ class EditPage(tk.Frame):
         # detail entry
         self.lb_detail = tk.Label(self, text="Detail")
         self.lb_detail.pack(side=tk.TOP, anchor=tk.NW)
-        self.ed_detail = tk.Text(self, height=10)
-        self.ed_detail.pack(side=tk.TOP, anchor=tk.NW)
+        self.ed_detail = tk.scrolledtext.ScrolledText(self, height=10)
+        self.ed_detail.pack(side=tk.TOP, anchor=tk.NW, expand=True)
 
         # memo entry
         self.lb_memo = tk.Label(self, text="Memo")
         self.lb_memo.pack(side=tk.TOP, anchor=tk.NW)
-        self.ed_memo = tk.Text(self, height=10)
-        self.ed_memo.pack(side=tk.TOP, anchor=tk.NW)
+        self.ed_memo = tk.scrolledtext.ScrolledText(self, height=10)
+        self.ed_memo.pack(side=tk.TOP, anchor=tk.NW, expand=True)
 
         # Delete Button
         self.bt_delete = tk.Button(self)
