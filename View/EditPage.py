@@ -37,20 +37,10 @@ class EditPage(tk.Frame):
         # Man-hour entry
         self.lb_man_hour = tk.Label(self, text="Man-hour")
         self.lb_man_hour.pack(side=tk.TOP, anchor=tk.NW)
-        self.ed_man_hour = tk.Label(self, text=self.man_hour)
-        self.ed_man_hour.pack(side=tk.TOP, anchor=tk.NW)
 
-        # increment Button
-        self.bt_increment = tk.Button(self, height=1, width=1)
-        self.bt_increment["text"] = "+"
-        self.bt_increment["command"] = lambda: self.increment_man_hour()
-        self.bt_increment.pack(side=tk.TOP, anchor=tk.W)
-
-        # decrement Button
-        self.bt_decrement = tk.Button(self, height=1, width=1)
-        self.bt_decrement["text"] = "-"
-        self.bt_decrement["command"] = lambda: self.decrement_man_hour()
-        self.bt_decrement.pack(side=tk.TOP, anchor=tk.W)
+        self.spb_man_hour = tk.Spinbox(
+            self, format="%.1f", from_=0.0, to=100.0, increment=0.5)
+        self.spb_man_hour.pack(side=tk.TOP, anchor=tk.NW)
 
         # Importance combobox
         self.lb_importance = tk.Label(self, text="Importance")
@@ -99,20 +89,6 @@ class EditPage(tk.Frame):
         self.bt_back["command"] = lambda: self.edit_task()
         self.bt_back.pack(side=tk.LEFT)
 
-    def increment_man_hour(self):
-        """increment man hour
-        """
-        self.man_hour += 0.5
-        self.ed_man_hour.config(text=self.man_hour)
-
-    def decrement_man_hour(self):
-        """decrement man hour
-
-        """
-        if self.man_hour >= 0.5:
-            self.man_hour -= 0.5
-            self.ed_man_hour.config(text=self.man_hour)
-
     def delete_task(self):
         """Delete task on database
 
@@ -141,7 +117,7 @@ class EditPage(tk.Frame):
         urgency = {'LOW': 0, 'MIDDLE': 1, 'HIGH': 2}[self.cb_urgency.get()]
         detail = self.ed_detail.get(1.0, tk.END).rstrip()
         memo = self.ed_memo.get(1.0, tk.END).rstrip()
-        man_hour = self.man_hour
+        man_hour = self.spb_man_hour.get()
         if title:
             # Show popup
             MsgBox = tk.messagebox.askquestion(
@@ -158,7 +134,6 @@ class EditPage(tk.Frame):
                     detail,
                     memo,
                     man_hour)
-                self.parent.switch_frame("StartPage", 0)
 
     def update(self, task_id):
         """Update handler which is called when Create page is displayed
@@ -169,6 +144,7 @@ class EditPage(tk.Frame):
         task = self.control.get_task(task_id)[0]
         # clear task data
         self.ed_title.delete(0, tk.END)
+        self.spb_man_hour.delete(0, tk.END)
         self.cb_importance.current(1)
         self.cb_urgency.current(1)
         self.ed_detail.delete(1.0, tk.END)
@@ -180,5 +156,4 @@ class EditPage(tk.Frame):
         self.cb_urgency.current(task.urgency)
         self.ed_detail.insert(tk.END, task.detail.rstrip())
         self.ed_memo.insert(tk.END, task.memo.rstrip())
-        self.man_hour = task.man_hour
-        self.ed_man_hour.config(text=self.man_hour)
+        self.spb_man_hour.insert(tk.END, task.man_hour)
