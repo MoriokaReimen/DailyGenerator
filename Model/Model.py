@@ -3,6 +3,7 @@
 """
 from .Database import *
 from .DailyGenerator import *
+from .SearchGenerator import *
 import logging
 
 
@@ -15,4 +16,5 @@ class Model():
         logging.info("Model class created")
         self.db = Database("tasks.db")
         self.daily_gen = DailyGenerator()
+        self.search_gen = SearchGenerator()
         self.control = control

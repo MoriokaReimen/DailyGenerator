@@ -118,3 +118,9 @@ class Control():
         """
         tasks = self.model.db.fetch_all(only_active=True)
         return self.model.daily_gen.generate(tasks)
+
+    def get_search_result(self, keyword):
+        """Generate Search Result from database data
+        """
+        tasks = self.search_task(keyword)
+        return self.model.search_gen.generate(tasks)

@@ -42,9 +42,10 @@ class SearchPage(tk.Frame):
         self.bt_search["command"] = lambda: self.on_search()
         self.bt_search.pack(side=tk.LEFT, anchor=tk.NW)
 
-        # Draw task table
-        self.task_table = TaskTable(self, parent)
-        self.task_table.pack(side=tk.TOP, anchor=tk.NW)
+        # Show Search Result
+        self.search_result = tk.scrolledtext.ScrolledText(self)
+        self.search_result.pack(side=tk.TOP, fill=tk.BOTH,
+                                anchor=tk.NW, expand=True)
 
         # Button Frame
         self.button_frame = tk.Frame(self)
@@ -63,10 +64,10 @@ class SearchPage(tk.Frame):
 
         """
         logging.info("Page transition to Search Page")
-        self.task_table.flash()
-        self.ed_keyword.delete(0, tk.END)
 
     def on_search(self):
         keyword = self.ed_keyword.get().rstrip()
-        tasks = self.control.search_task(keyword)
-        self.task_table.draw(tasks)
+        # update Search Result
+        self.search_result.delete(1.0, tk.END)
+        self.search_result.insert(
+            tk.END, self.control.get_search_result(keyword))
