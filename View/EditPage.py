@@ -39,7 +39,7 @@ class EditPage(tk.Frame):
         self.lb_man_hour.pack(side=tk.TOP, anchor=tk.NW)
 
         self.spb_man_hour = tk.Spinbox(
-            self, format="%.1f", from_=0.0, to=100.0, increment=0.5)
+            self, format="%.1f", from_=0.0, to=100.0, increment=0.5, state="readonly")
         self.spb_man_hour.pack(side=tk.TOP, anchor=tk.NW)
 
         # Importance combobox
@@ -144,6 +144,7 @@ class EditPage(tk.Frame):
         task = self.control.get_task(task_id)[0]
         # clear task data
         self.ed_title.delete(0, tk.END)
+        self.spb_man_hour.configure(state='normal')
         self.spb_man_hour.delete(0, tk.END)
         self.cb_importance.current(1)
         self.cb_urgency.current(1)
@@ -156,4 +157,5 @@ class EditPage(tk.Frame):
         self.cb_urgency.current(task.urgency)
         self.ed_detail.insert(tk.END, task.detail.rstrip())
         self.ed_memo.insert(tk.END, task.memo.rstrip())
-        self.spb_man_hour.insert(tk.END, task.man_hour)
+        self.spb_man_hour.insert(0, task.man_hour)
+        self.spb_man_hour.configure(state='readonly')
