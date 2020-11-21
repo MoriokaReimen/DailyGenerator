@@ -42,11 +42,12 @@ class Database():
                 row[7],
                 row[8]) for row in rows]
 
-    def fetch_all(self):
+    def fetch_all(self, only_active=False):
         """Get all task from database
 
         """
-        rows = self.cur.execute("SELECT * FROM tasks;").fetchall()
+        rows = self.cur.execute("SELECT * FROM tasks WHERE active = 1;").fetchall(
+        ) if only_active else self.cur.execute("SELECT * FROM tasks;").fetchall()
         return [
             TableItem(
                 row[0],

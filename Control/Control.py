@@ -20,11 +20,11 @@ class Control():
         """
         self.view.start()
 
-    def get_tasks(self):
+    def get_tasks(self, only_active=False):
         """get all task data from database
 
         """
-        return self.model.db.fetch_all()
+        return self.model.db.fetch_all(only_active)
 
     def get_task(self, task_id):
         """delete task data from database
@@ -108,5 +108,5 @@ class Control():
     def get_daily(self):
         """Generate daily from database data
         """
-        tasks = self.model.db.fetch_all()
+        tasks = self.model.db.fetch_all(only_active=True)
         return self.model.daily_gen.generate(tasks)
