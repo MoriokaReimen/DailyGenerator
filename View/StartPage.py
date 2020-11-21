@@ -6,6 +6,7 @@ from .CreatePage import *
 from .GeneratorPage import *
 from .EditPage import *
 from Control import *
+from .ScrollableFrame import *
 
 
 class StartPage(tk.Frame):
@@ -19,7 +20,7 @@ class StartPage(tk.Frame):
         self.label.pack(side=tk.TOP, anchor=tk.NW)
 
         # Show Entry
-        self.frame2 = tk.Frame(self)
+        self.frame2 = VerticalScrolledFrame(self)
         self.frame2.pack(side=tk.TOP, anchor=tk.NW)
 
         self.button_frame = tk.Frame(self)
@@ -41,15 +42,15 @@ class StartPage(tk.Frame):
 
     def update(self, task_id):
         # Clear table widgets
-        for widget in self.frame2.winfo_children():
+        for widget in self.frame2.interior.winfo_children():
             widget.destroy()
 
         # reset pack
-        self.frame2.pack_forget()
+        self.frame2.interior.pack_forget()
 
         # Title
         entry = tk.Label(
-            self.frame2,
+            self.frame2.interior,
             text="title",
             width=25,
             justify=tk.LEFT,
@@ -61,7 +62,7 @@ class StartPage(tk.Frame):
 
         # Importance
         entry = tk.Label(
-            self.frame2,
+            self.frame2.interior,
             text="importance",
             width=8,
             justify=tk.LEFT,
@@ -73,7 +74,7 @@ class StartPage(tk.Frame):
 
         # Urgency
         entry = tk.Label(
-            self.frame2,
+            self.frame2.interior,
             text="urgency",
             width=8,
             justify=tk.LEFT,
@@ -85,7 +86,7 @@ class StartPage(tk.Frame):
 
         # Create
         entry = tk.Label(
-            self.frame2,
+            self.frame2.interior,
             text="create",
             width=15,
             justify=tk.LEFT,
@@ -97,7 +98,7 @@ class StartPage(tk.Frame):
 
         # Man-hour
         entry = tk.Label(
-            self.frame2,
+            self.frame2.interior,
             text="Man-hour",
             width=10,
             justify=tk.LEFT,
@@ -113,7 +114,7 @@ class StartPage(tk.Frame):
             if task.active:
                 # Title
                 entry = tk.Label(
-                    self.frame2,
+                    self.frame2.interior,
                     text=task.title,
                     width=25,
                     justify=tk.LEFT,
@@ -126,7 +127,7 @@ class StartPage(tk.Frame):
                     0: "LOW", 1: "MIDDLE", 2: "HIGH"}[
                     task.importance]
                 entry = tk.Label(
-                    self.frame2,
+                    self.frame2.interior,
                     text=importance,
                     width=8,
                     justify=tk.LEFT,
@@ -137,7 +138,7 @@ class StartPage(tk.Frame):
                 # Urgency
                 urgency = {0: "LOW", 1: "MIDDLE", 2: "HIGH"}[task.urgency]
                 entry = tk.Label(
-                    self.frame2,
+                    self.frame2.interior,
                     text=urgency,
                     width=8,
                     justify=tk.LEFT,
@@ -148,7 +149,7 @@ class StartPage(tk.Frame):
                 # Create
                 create_time = task.create_time[:16]
                 entry = tk.Label(
-                    self.frame2,
+                    self.frame2.interior,
                     text=create_time,
                     width=15,
                     justify=tk.LEFT,
@@ -159,7 +160,7 @@ class StartPage(tk.Frame):
                 # Man-hour
                 man_hour = task.man_hour
                 entry = tk.Label(
-                    self.frame2,
+                    self.frame2.interior,
                     text=man_hour,
                     width=10,
                     justify=tk.LEFT,
@@ -168,7 +169,7 @@ class StartPage(tk.Frame):
                 entry.grid(row=j, column=4)
 
                 # EditButton
-                bt_edit = tk.Button(self.frame2)
+                bt_edit = tk.Button(self.frame2.interior)
                 bt_edit["text"] = "Edit"
                 bt_edit["command"] = lambda task_id = task.task_id: self.parent.switch_frame(
                     "EditPage", task_id)
