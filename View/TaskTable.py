@@ -79,12 +79,7 @@ class TaskTable(tk.Frame):
         self.task_table.pack(side=tk.TOP, anchor=tk.NW)
 
     def draw(self, tasks):
-        # Clear table widgets
-        for widget in self.task_table.interior.winfo_children():
-            widget.destroy()
-
-        # reset pack
-        self.task_table.interior.pack_forget()
+        self.flash()
 
         for j, task in enumerate(tasks):
             # Title
@@ -150,4 +145,11 @@ class TaskTable(tk.Frame):
                 "EditPage", task_id)
             bt_edit.grid(row=j, column=5)
 
+    def flash(self):
         self.task_table.pack(side=tk.TOP, anchor=tk.NW, expand=True)
+        # Clear table widgets
+        for widget in self.task_table.interior.winfo_children():
+            widget.destroy()
+
+        # reset pack
+        self.task_table.interior.pack_forget()

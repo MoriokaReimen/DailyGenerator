@@ -34,6 +34,13 @@ class StartPage(tk.Frame):
             "CreatePage", 0)
         self.bt_new_item.pack(side=tk.LEFT)
 
+        # Search Button
+        self.bt_search = tk.Button(self.button_frame)
+        self.bt_search["text"] = "Search"
+        self.bt_search["command"] = lambda: self.parent.switch_frame(
+            "SearchPage", 0)
+        self.bt_search.pack(side=tk.LEFT)
+
         # Generate Daily Button
         self.bt_generate = tk.Button(self.button_frame)
         self.bt_generate["text"] = "Generate Daily"

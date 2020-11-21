@@ -10,6 +10,7 @@ from .StartPage import *
 from .CreatePage import *
 from .EditPage import *
 from .GeneratorPage import *
+from .SearchPage import *
 
 
 class View():
@@ -28,7 +29,7 @@ class View():
         # pack all pages into list
         self.frames = {}
         for S, F in (("StartPage", StartPage), ("CreatePage", CreatePage),
-                     ("GeneratorPage", GeneratorPage), ("EditPage", EditPage)):
+                     ("GeneratorPage", GeneratorPage), ("EditPage", EditPage), ("SearchPage", SearchPage)):
             frame = F(self, control)
             self.frames[S] = frame
             frame.grid(row=0, column=0, sticky="nsew")
