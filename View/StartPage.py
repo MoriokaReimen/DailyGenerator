@@ -19,6 +19,70 @@ class StartPage(tk.Frame):
         self.label = tk.Label(self, text="Task Table")
         self.label.pack(side=tk.TOP, anchor=tk.NW)
 
+        # add caption
+        self.caption_frame = tk.Frame(self)
+        self.caption_frame.pack(side=tk.TOP, anchor=tk.NW)
+
+        # Title
+        entry = tk.Label(
+            self.caption_frame,
+            text="title",
+            width=25,
+            justify=tk.LEFT,
+            anchor=tk.W,
+            relief=tk.RIDGE,
+            fg="white",
+            bg="black")
+        entry.grid(row=0, column=0)
+
+        # Importance
+        entry = tk.Label(
+            self.caption_frame,
+            text="importance",
+            width=8,
+            justify=tk.LEFT,
+            anchor=tk.W,
+            relief=tk.RIDGE,
+            fg="white",
+            bg="black")
+        entry.grid(row=0, column=1)
+
+        # Urgency
+        entry = tk.Label(
+            self.caption_frame,
+            text="urgency",
+            width=8,
+            justify=tk.LEFT,
+            anchor=tk.W,
+            relief=tk.RIDGE,
+            fg="white",
+            bg="black")
+        entry.grid(row=0, column=2)
+
+        # Create
+        entry = tk.Label(
+            self.caption_frame,
+            text="create",
+            width=15,
+            justify=tk.LEFT,
+            anchor=tk.W,
+            relief=tk.RIDGE,
+            fg="white",
+            bg="black")
+        entry.grid(row=0, column=3)
+
+        # Man-hour
+        entry = tk.Label(
+            self.caption_frame,
+            text="Man-hour",
+            width=10,
+            justify=tk.LEFT,
+            anchor=tk.W,
+            relief=tk.RIDGE,
+            fg="white",
+            bg="black")
+        entry.grid(row=0, column=4)
+
         # Show Entry
         self.frame2 = VerticalScrolledFrame(self)
         self.frame2.pack(side=tk.TOP, anchor=tk.NW)
@@ -47,66 +111,6 @@ class StartPage(tk.Frame):
 
         # reset pack
         self.frame2.interior.pack_forget()
-
-        # Title
-        entry = tk.Label(
-            self.frame2.interior,
-            text="title",
-            width=25,
-            justify=tk.LEFT,
-            anchor=tk.W,
-            relief=tk.RIDGE,
-            fg="white",
-            bg="black")
-        entry.grid(row=0, column=0)
-
-        # Importance
-        entry = tk.Label(
-            self.frame2.interior,
-            text="importance",
-            width=8,
-            justify=tk.LEFT,
-            anchor=tk.W,
-            relief=tk.RIDGE,
-            fg="white",
-            bg="black")
-        entry.grid(row=0, column=1)
-
-        # Urgency
-        entry = tk.Label(
-            self.frame2.interior,
-            text="urgency",
-            width=8,
-            justify=tk.LEFT,
-            anchor=tk.W,
-            relief=tk.RIDGE,
-            fg="white",
-            bg="black")
-        entry.grid(row=0, column=2)
-
-        # Create
-        entry = tk.Label(
-            self.frame2.interior,
-            text="create",
-            width=15,
-            justify=tk.LEFT,
-            anchor=tk.W,
-            relief=tk.RIDGE,
-            fg="white",
-            bg="black")
-        entry.grid(row=0, column=3)
-
-        # Man-hour
-        entry = tk.Label(
-            self.frame2.interior,
-            text="Man-hour",
-            width=10,
-            justify=tk.LEFT,
-            anchor=tk.W,
-            relief=tk.RIDGE,
-            fg="white",
-            bg="black")
-        entry.grid(row=0, column=4)
 
         tasks = self.control.get_tasks()
         j = 1
@@ -178,4 +182,4 @@ class StartPage(tk.Frame):
                 # move to next line
                 j += 1
 
-        self.frame2.pack(side=tk.TOP, anchor=tk.NW)
+        self.frame2.pack(side=tk.TOP, anchor=tk.NW, expand=True)
