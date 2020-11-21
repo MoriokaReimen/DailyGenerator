@@ -34,6 +34,14 @@ class Control():
         """
         return self.model.db.fetch(task_id)
 
+    def search_task(self, keyword):
+        """delete task data from database
+        Args:
+            keyword (str): keyword to search
+
+        """
+        return self.model.db.search(keyword)
+
     def delete_task(self, task_id):
         """delete task data in database
         Args:

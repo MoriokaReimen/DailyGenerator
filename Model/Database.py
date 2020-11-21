@@ -23,18 +23,19 @@ class Database():
 
         # check if tasks_fts table exists
         table_found = self.cur.execute(
-            "SELECT count(name) FROM sqlite_master WHERE type='table' AND name='tasks_fts'").fetchall()[0]
+            "SELECT count(name) FROM sqlite_master WHERE type='table' AND name='tasks_fts'").fetchall()[0][0]
 
         # if the count is 1, then table exists
-        if not table_found:
+        if table_found == 0:
             # create and copy from tasks table
             self.cur.execute("CREATE VIRTUAL TABLE IF NOT EXISTS tasks_fts USING fts4(task_id INTEGER PRIMARY KEY, active BOOLEAN NOT NULL, title TEXT NOT NULL UNIQUE, importance INTEGER DEFAULT 2, urgency INTEGER DEFAULT 2, detail TEXT, memo TEXT, man_hour FLOAT, create_date TIMESTAMP);")
             self.cur.execute("INSERT INTO tasks_fts SELECT * FROM tasks;")
 
         # Add trigers
-        self.cur.execute("CREATE TRIGGER IF NOT EXISTS on_task_add AFTER INSERT ON tasks BEGIN INSERT INTO tasks_fts (task_id, active, title, importance, urgency, detail, memo, man_hour, create_data) VALUES (new.task_id, new.active, new.title, new.importance, new.urgency, new.detail, new.memo, new.man_hour, new.create_data); END;")
-        self.cur.execute("CREATE TRIGGER IF NOT EXISTS on_task_delete AFTER DELETE ON tasks BEGIN INSERT INTO tasks_fts (task_id, active, title, importance, urgency, detail, memo, man_hour, create_data) VALUES ('delete', old.task_id, old.active, old.title, old.importance, old.urgency, old.detail, old.memo, old.man_hour, old.create_data); END;")
-        self.cur.execute("CREATE TRIGGER IF NOT EXISTS on_task_update AFTER UPDATE ON tasks BEGIN INSERT INTO tasks_fts (task_id, active, title, importance, urgency, detail, memo, man_hour, create_data) VALUES ('delete', old.task_id, old.active, old.title, old.importance, old.urgency, old.detail, old.memo, old.man_hour, old.create_data); INSERT INTO tasks_fts (task_id, active, title, importance, urgency, detail, memo, man_hour, create_data) VALUES (new.task_id, new.active, new.title, new.importance, new.urgency, new.detail, new.memo, new.man_hour, new.create_data); END;")
+        self.cur.execute("CREATE TRIGGER IF NOT EXISTS on_task_add AFTER INSERT ON tasks BEGIN INSERT INTO    tasks_fts (task_id, active, title, importance, urgency, detail, memo, man_hour, create_date) VALUES (new.task_id, new.active, new.title, new.importance, new.urgency, new.detail, new.memo, new.man_hour, new.create_date); END;")
+        self.cur.execute(
+            "CREATE TRIGGER IF NOT EXISTS on_task_delete AFTER DELETE ON tasks BEGIN DELETE FROM tasks_fts WHERE task_id = old.task_id; END;")
+        self.cur.execute("CREATE TRIGGER IF NOT EXISTS on_task_update AFTER UPDATE ON tasks BEGIN UPDATE tasks_fts SET task_id = new.task_id, active = new.active, title = new.title, importance = new.importance, urgency=new.urgency, detail=new.detail, memo=new.memo, man_hour=new.man_hour, create_date=new.create_date WHERE task_id=new.task_id; END;")
 
         # updte db
         self.conn.commit()
@@ -135,6 +136,24 @@ class Database():
         """
         self.cur.execute("DELETE FROM tasks WHERE task_id=?", (task_id,))
         self.conn.commit()
+
+    def search(self, keyword):
+        """Search from database
+
+        """
+        rows = self.cur.execute(
+            "SELECT * FROM tasks_fts WHERE title MATCH '{0}' OR detail MATCH '{0}' OR memo MATCH '{0}';".format(keyword).format(keyword)).fetchall()
+        return [
+            TableItem(
+                row[0],
+                row[1],
+                row[2],
+                row[3],
+                row[4],
+                row[5],
+                row[6],
+                row[7],
+                row[8]) for row in rows]
 
     def __del__(self):
         """Close database

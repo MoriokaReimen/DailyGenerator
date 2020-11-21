@@ -68,4 +68,5 @@ class SearchPage(tk.Frame):
 
     def on_search(self):
         keyword = self.ed_keyword.get().rstrip()
-        print(keyword)
+        tasks = self.control.search_task(keyword)
+        self.task_table.draw(tasks)
