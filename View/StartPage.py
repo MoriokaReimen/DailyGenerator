@@ -84,7 +84,7 @@ class StartPage(tk.Frame):
         entry.grid(row=0, column=4)
 
         # Show Entry
-        self.frame2 = VerticalScrolledFrame(self)
+        self.frame2 = VerticalScrolledFrame(self, height=700)
         self.frame2.pack(side=tk.TOP, anchor=tk.NW)
 
         self.button_frame = tk.Frame(self)
