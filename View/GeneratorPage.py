@@ -30,7 +30,7 @@ class GeneratorPage(tk.Frame):
         # Show Daily
         self.daily = tk.scrolledtext.ScrolledText(self)
         self.daily.insert(tk.END, control.get_daily())
-        self.daily.pack(side=tk.TOP, anchor=tk.NW, expand=True)
+        self.daily.pack(side=tk.TOP, fill=tk.BOTH, anchor=tk.NW, expand=True)
 
         # Back Button
         self.bt_back = tk.Button(self)

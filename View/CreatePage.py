@@ -3,6 +3,7 @@
 """
 import tkinter as tk
 from tkinter import ttk
+from tkinter import scrolledtext
 import logging
 import datetime
 
@@ -58,18 +59,22 @@ class CreatePage(tk.Frame):
         self.ed_memo = tk.Text(self, height=10)
         self.ed_memo.pack(side=tk.TOP, anchor=tk.NW)
 
+        # Button Frame
+        self.button_frame = tk.Frame(self)
+        self.button_frame.pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
+
         # Back Button
-        self.bt_back = tk.Button(self)
+        self.bt_back = tk.Button(self.button_frame)
         self.bt_back["text"] = "Back"
         self.bt_back["command"] = lambda: self.parent.switch_frame(
             "StartPage", 0)
         self.bt_back.pack(side=tk.LEFT)
 
         # Create Button
-        self.bt_back = tk.Button(self)
+        self.bt_back = tk.Button(self.button_frame)
         self.bt_back["text"] = "Create"
         self.bt_back["command"] = lambda: self.create_task()
-        self.bt_back.pack(side=tk.LEFT)
+        self.bt_back.pack(side=tk.RIGHT)
 
     def create_task(self):
         """Create task on database

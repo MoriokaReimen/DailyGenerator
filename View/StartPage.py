@@ -87,6 +87,7 @@ class StartPage(tk.Frame):
         self.frame2 = VerticalScrolledFrame(self, height=700)
         self.frame2.pack(side=tk.TOP, anchor=tk.NW)
 
+        # Button Frame
         self.button_frame = tk.Frame(self)
         self.button_frame.pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
 
