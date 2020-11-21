@@ -142,7 +142,7 @@ class Database():
 
         """
         rows = self.cur.execute(
-            "SELECT * FROM tasks_fts WHERE title MATCH '{0}' OR detail MATCH '{0}' OR memo MATCH '{0}';".format(keyword).format(keyword)).fetchall()
+            "SELECT * FROM tasks_fts WHERE title LIKE '{0}' OR detail LIKE '{0}' OR memo LIKE '{0}';".format(keyword).format(keyword)).fetchall()
         return [
             TableItem(
                 row[0],
